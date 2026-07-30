@@ -7,26 +7,21 @@ import Foundation
 
 /// Composition root for dependencies exposed through Domain protocols.
 ///
-/// Implemented as a plain `final class` (not `actor`, not `@MainActor`) so that
-/// Swift 6 strict-concurrency checking does not propagate any actor isolation to
-/// Domain-layer types that conform to `Sendable` (e.g. entity `Codable` synthesis).
+/// Implemented as a plain `final class: Sendable` (not `actor`, not `@MainActor`)
+/// so that Swift 6 strict-concurrency checking does not propagate any actor
+/// isolation to Domain-layer types that conform to `Sendable`.
 ///
-/// Thread-safety on `factories` is provided by `NSLock`, which gives the same
-/// mutual-exclusion guarantee as an `actor` for this synchronous, non-reentrant
-/// use case.
+/// Thread-safety on `factories` is provided by `NSLock`.
 final class DependencyContainer: Sendable {
 
-    /// Shared live instance. `static let` on a class is initialised lazily and
-    /// atomically by the Swift runtime — no additional locking required.
-    static let live = DependencyContainer(configuration: .current)
+    // nonisolated(unsafe): written once at app startup before any concurrent
+    // access. Depends on AppConfiguration.current which is also nonisolated(unsafe).
+    nonisolated(unsafe) static let live = DependencyContainer(configuration: .current)
 
     let configuration: AppConfiguration
 
     private let lock = NSLock()
-    // `factories` is mutated only while `lock` is held, so the class is
-    // technically Sendable even though the dictionary is not inherently so.
-    // The nonisolated(unsafe) suppresses the compiler warning for this
-    // specific stored property only — not for the entire type.
+    // Mutated only while `lock` is held — safe despite not being inherently Sendable.
     private nonisolated(unsafe) var factories: [ObjectIdentifier: Any] = [:]
 
     init(configuration: AppConfiguration) {
