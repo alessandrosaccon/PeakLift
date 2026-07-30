@@ -10,23 +10,13 @@ import SwiftData
 
 @main
 struct PeakLiftApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    private let dependencies = AppDependencies.live
+    private let modelContainer = AppModelContainer.make()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppShellView(dependencies: dependencies)
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(modelContainer)
     }
 }
