@@ -2,13 +2,15 @@
 //  PeakLiftApp.swift
 //  PeakLift
 //
+//  Created by Alessandro Saccon on 30/07/2026.
+//
 
 import SwiftUI
 import SwiftData
 
 @main
 struct PeakLiftApp: App {
-    private let dependencies = sharedDependencies
+    private let dependencies = AppDependencies.live
     private let modelContainer = AppModelContainer.make()
 
     var body: some Scene {
