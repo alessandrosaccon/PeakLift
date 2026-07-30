@@ -11,5 +11,6 @@ struct FeaturePlaceholderView: View {
 
     var body: some View {
         ContentUnavailableView(title, systemImage: systemImage)
+            .peakLiftPageBackground()
     }
 }
