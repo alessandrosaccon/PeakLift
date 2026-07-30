@@ -32,7 +32,7 @@ struct GlassCard<Content: View>: View {
         content
             .padding(PeakLiftSpacing.x5)
             .peakLiftGlass(tint: emphasis.tint, cornerRadius: PeakLiftRadius.xl)
-            .shadow(color: .black.opacity(0.08), radius: 20, y: 8)
+            .shadow(color: PeakLiftColor.separator.opacity(0.4), radius: 20, y: 8)
     }
 }
 

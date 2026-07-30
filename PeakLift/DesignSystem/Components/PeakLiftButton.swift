@@ -61,6 +61,7 @@ struct PeakLiftIconButton: View {
 
 private struct PeakLiftButtonPressStyle: ButtonStyle {
     let style: PeakLiftButtonStyle
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -75,7 +76,7 @@ private struct PeakLiftButtonPressStyle: ButtonStyle {
             }
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
             .opacity(configuration.isPressed ? 0.86 : 1)
-            .animation(PeakLiftMotion.instant, value: configuration.isPressed)
+            .animation(reduceMotion ? nil : PeakLiftMotion.instant, value: configuration.isPressed)
     }
 
     private var foreground: Color {
