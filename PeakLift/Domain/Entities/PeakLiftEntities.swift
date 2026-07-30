@@ -7,7 +7,7 @@ import Foundation
 
 // Dates are absolute instants. Persistence and transport layers must encode them in UTC.
 
-struct UserProfile: DomainEntity, Codable {
+struct UserProfile: DomainEntity {
     let id: UUID
     var displayName: String?
     var weightUnit: WeightUnit
@@ -47,7 +47,7 @@ struct UserProfile: DomainEntity, Codable {
     }
 }
 
-struct Exercise: DomainEntity, Codable {
+struct Exercise: DomainEntity {
     let id: UUID
     var ownerUserID: UUID?
     var name: String
@@ -90,7 +90,7 @@ struct Exercise: DomainEntity, Codable {
     }
 }
 
-struct MuscleGroup: DomainEntity, Codable {
+struct MuscleGroup: DomainEntity {
     let id: UUID
     var code: String
     var displayName: String
@@ -98,7 +98,14 @@ struct MuscleGroup: DomainEntity, Codable {
     var isSystemDefined: Bool
     let createdAt: Date
 
-    init(id: UUID = UUID(), code: String, displayName: String, bodyRegion: String, isSystemDefined: Bool = true, createdAt: Date = .now) {
+    init(
+        id: UUID = UUID(),
+        code: String,
+        displayName: String,
+        bodyRegion: String,
+        isSystemDefined: Bool = true,
+        createdAt: Date = .now
+    ) {
         self.id = id
         self.code = code
         self.displayName = displayName
@@ -108,7 +115,7 @@ struct MuscleGroup: DomainEntity, Codable {
     }
 }
 
-struct ExerciseMuscleGroup: DomainEntity, Codable {
+struct ExerciseMuscleGroup: DomainEntity {
     let id: UUID
     let exerciseID: UUID
     let muscleGroupID: UUID
@@ -116,7 +123,14 @@ struct ExerciseMuscleGroup: DomainEntity, Codable {
     var contributionWeight: Double
     let createdAt: Date
 
-    init(id: UUID = UUID(), exerciseID: UUID, muscleGroupID: UUID, role: MuscleRole, contributionWeight: Double, createdAt: Date = .now) {
+    init(
+        id: UUID = UUID(),
+        exerciseID: UUID,
+        muscleGroupID: UUID,
+        role: MuscleRole,
+        contributionWeight: Double,
+        createdAt: Date = .now
+    ) {
         self.id = id
         self.exerciseID = exerciseID
         self.muscleGroupID = muscleGroupID
@@ -126,7 +140,7 @@ struct ExerciseMuscleGroup: DomainEntity, Codable {
     }
 }
 
-struct WorkoutSet: DomainEntity, Codable {
+struct WorkoutSet: DomainEntity {
     let id: UUID
     var setOrder: Int
     var weightKg: Double
@@ -186,7 +200,7 @@ struct WorkoutSet: DomainEntity, Codable {
     }
 }
 
-struct WorkoutExercise: DomainEntity, Codable {
+struct WorkoutExercise: DomainEntity {
     let id: UUID
     let exerciseID: UUID
     var exerciseNameSnapshot: String
@@ -217,7 +231,7 @@ struct WorkoutExercise: DomainEntity, Codable {
     }
 }
 
-struct Workout: DomainEntity, Codable {
+struct Workout: DomainEntity {
     let id: UUID
     let userID: UUID
     var title: String?
@@ -267,7 +281,7 @@ struct Workout: DomainEntity, Codable {
     var workingSetCount: Int { allSets.filter(\.contributesToWorkingSetCount).count }
 }
 
-struct PersonalRecord: DomainEntity, Codable {
+struct PersonalRecord: DomainEntity {
     let id: UUID
     let userID: UUID
     let exerciseID: UUID
@@ -280,12 +294,34 @@ struct PersonalRecord: DomainEntity, Codable {
     let createdAt: Date
     var updatedAt: Date
 
-    init(id: UUID = UUID(), userID: UUID, exerciseID: UUID, recordType: PersonalRecordType, value: Double, unit: String, achievedAt: Date, workoutID: UUID, workoutSetID: UUID? = nil, createdAt: Date = .now, updatedAt: Date = .now) {
-        self.id = id; self.userID = userID; self.exerciseID = exerciseID; self.recordType = recordType; self.value = value; self.unit = unit; self.achievedAt = achievedAt; self.workoutID = workoutID; self.workoutSetID = workoutSetID; self.createdAt = createdAt; self.updatedAt = updatedAt
+    init(
+        id: UUID = UUID(),
+        userID: UUID,
+        exerciseID: UUID,
+        recordType: PersonalRecordType,
+        value: Double,
+        unit: String,
+        achievedAt: Date,
+        workoutID: UUID,
+        workoutSetID: UUID? = nil,
+        createdAt: Date = .now,
+        updatedAt: Date = .now
+    ) {
+        self.id = id
+        self.userID = userID
+        self.exerciseID = exerciseID
+        self.recordType = recordType
+        self.value = value
+        self.unit = unit
+        self.achievedAt = achievedAt
+        self.workoutID = workoutID
+        self.workoutSetID = workoutSetID
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
     }
 }
 
-struct ProgressMetric: DomainEntity, Codable {
+struct ProgressMetric: DomainEntity {
     let id: UUID
     let userID: UUID
     var metricType: ProgressMetricType
@@ -302,12 +338,42 @@ struct ProgressMetric: DomainEntity, Codable {
     var computedAt: Date
     var expiresAt: Date?
 
-    init(id: UUID = UUID(), userID: UUID, metricType: ProgressMetricType, dimension: ProgressMetricDimension, dimensionID: UUID? = nil, periodStart: Date, periodEnd: Date, value: Double, comparisonValue: Double? = nil, unit: String, sampleSize: Int, confidence: InsightConfidence, calculationVersion: Int, computedAt: Date = .now, expiresAt: Date? = nil) {
-        self.id = id; self.userID = userID; self.metricType = metricType; self.dimension = dimension; self.dimensionID = dimensionID; self.periodStart = periodStart; self.periodEnd = periodEnd; self.value = value; self.comparisonValue = comparisonValue; self.unit = unit; self.sampleSize = sampleSize; self.confidence = confidence; self.calculationVersion = calculationVersion; self.computedAt = computedAt; self.expiresAt = expiresAt
+    init(
+        id: UUID = UUID(),
+        userID: UUID,
+        metricType: ProgressMetricType,
+        dimension: ProgressMetricDimension,
+        dimensionID: UUID? = nil,
+        periodStart: Date,
+        periodEnd: Date,
+        value: Double,
+        comparisonValue: Double? = nil,
+        unit: String,
+        sampleSize: Int,
+        confidence: InsightConfidence,
+        calculationVersion: Int,
+        computedAt: Date = .now,
+        expiresAt: Date? = nil
+    ) {
+        self.id = id
+        self.userID = userID
+        self.metricType = metricType
+        self.dimension = dimension
+        self.dimensionID = dimensionID
+        self.periodStart = periodStart
+        self.periodEnd = periodEnd
+        self.value = value
+        self.comparisonValue = comparisonValue
+        self.unit = unit
+        self.sampleSize = sampleSize
+        self.confidence = confidence
+        self.calculationVersion = calculationVersion
+        self.computedAt = computedAt
+        self.expiresAt = expiresAt
     }
 }
 
-struct ConsentRecord: DomainEntity, Codable {
+struct ConsentRecord: DomainEntity {
     let id: UUID
     let userID: UUID
     var consentType: ConsentType
@@ -317,7 +383,23 @@ struct ConsentRecord: DomainEntity, Codable {
     var revokedAt: Date?
     var updatedAt: Date
 
-    init(id: UUID = UUID(), userID: UUID, consentType: ConsentType, status: ConsentStatus, policyVersion: String, grantedAt: Date? = nil, revokedAt: Date? = nil, updatedAt: Date = .now) {
-        self.id = id; self.userID = userID; self.consentType = consentType; self.status = status; self.policyVersion = policyVersion; self.grantedAt = grantedAt; self.revokedAt = revokedAt; self.updatedAt = updatedAt
+    init(
+        id: UUID = UUID(),
+        userID: UUID,
+        consentType: ConsentType,
+        status: ConsentStatus,
+        policyVersion: String,
+        grantedAt: Date? = nil,
+        revokedAt: Date? = nil,
+        updatedAt: Date = .now
+    ) {
+        self.id = id
+        self.userID = userID
+        self.consentType = consentType
+        self.status = status
+        self.policyVersion = policyVersion
+        self.grantedAt = grantedAt
+        self.revokedAt = revokedAt
+        self.updatedAt = updatedAt
     }
 }
