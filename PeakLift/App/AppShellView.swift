@@ -7,7 +7,7 @@ import SwiftUI
 
 /// Root presentation shell. Feature screens remain isolated behind their tabs.
 struct AppShellView: View {
-    let dependencies: AppDependencies
+    let dependencies: DependencyContainer
 
     @State private var selectedTab: AppTab = .dashboard
 

@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct PeakLiftApp: App {
-    private let dependencies = AppDependencies.live
+    private let dependencies = DependencyContainer.live
     private let modelContainer = AppModelContainer.make()
 
     var body: some Scene {
