@@ -17,7 +17,7 @@ enum MuscleRole: String, CaseIterable, Codable, Sendable { case primary, seconda
 enum SyncStatus: String, CaseIterable, Codable, Sendable { case localOnly, pendingUpload, synced, conflict, failed }
 enum ConsentType: String, CaseIterable, Codable, Sendable { case ai, healthKit, analytics, notifications }
 enum ConsentStatus: String, CaseIterable, Codable, Sendable { case granted, denied, revoked }
-enum InsightCategory: String, CaseIterable, Codable, Sendable { case progression, volume, frequency, balance, consistency, recovery, insufficientData }
+//enum InsightCategory: String, CaseIterable, Codable, Sendable { case progression, volume, frequency, balance, consistency, recovery, insufficientData }
 enum InsightConfidence: String, CaseIterable, Codable, Sendable { case low, medium, high, insufficient }
 
 enum PersonalRecordType: String, CaseIterable, Codable, Sendable { case maxWeight, maxReps, maxVolume, estimatedOneRepMax }
