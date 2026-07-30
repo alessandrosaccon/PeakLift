@@ -34,5 +34,5 @@ struct AppShellView: View {
 }
 
 #Preview {
-    AppShellView(dependencies: .live)
+    AppShellView(dependencies: sharedDependencies)
 }
