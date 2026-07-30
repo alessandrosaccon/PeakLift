@@ -7,10 +7,14 @@ import Foundation
 
 /// Composition root for dependencies exposed through Domain protocols.
 /// Implemented as an `actor` to guarantee thread-safe mutation of the
-/// factories registry without requiring @MainActor (which would contaminate
-/// Sendable conformances in the Domain layer under Swift 6 strict concurrency).
+/// factories registry without contaminating Domain layer Sendable conformances.
 actor DependencyContainer {
-    static let live = DependencyContainer(configuration: .current)
+
+    /// Shared live instance. Marked `nonisolated(unsafe)` so it can be
+    /// referenced as a default value from non-isolated contexts (e.g. SwiftUI
+    /// property initializers). Safe because `live` is assigned exactly once
+    /// before any concurrent access occurs.
+    nonisolated(unsafe) static let live = DependencyContainer(configuration: .current)
 
     let configuration: AppConfiguration
     private var factories: [ObjectIdentifier: Any] = [:]
